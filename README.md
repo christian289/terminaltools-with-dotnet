@@ -1,11 +1,13 @@
-# .NET으로 만드는 현대적인 터미널 애플리케이션 - 전체 목차
+# .NET으로 만드는 현대적인 터미널 애플리케이션
 
 ## 전자책 구성
 
 이 전자책은 .NET을 사용하여 전문적인 터미널 애플리케이션을 개발하는 방법을 다룹니다.
 
 ### Part I: 터미널의 역사와 기초
+
 - [Chapter 1: 터미널 환경의 역사와 철학](./part1-basics/chapter01-history-and-philosophy.md)
+
   - 유닉스 철학과 터미널 도구의 탄생
   - 파이프라인과 필터 패러다임
   - 현대 개발 환경에서 터미널의 역할
@@ -19,7 +21,9 @@
   - 진행 표시와 상호작용 피드백
 
 ### Part II: .NET 기초로 시작하는 콘솔 애플리케이션
+
 - [Chapter 3: .NET BCL만으로 구현하는 콘솔 애플리케이션](./part2-dotnet-foundation/chapter03-bcl-console.md)
+
   - System.Console 클래스 심층 분석
   - CommandLineArgs 처리와 파싱
   - 표준 입출력 스트림 다루기
@@ -34,7 +38,9 @@
   - 다른 프로세스와의 통신
 
 ### Part III: 고급 라이브러리를 활용한 개발
+
 - [Chapter 5: Spectre.Console로 만드는 리치 터미널 UI](./part3-advanced-libraries/chapter05-spectre-console.md)
+
   - Spectre.Console 아키텍처 이해
   - 테이블, 트리, 차트 렌더링
   - 프로그레스 바와 스피너
@@ -42,6 +48,7 @@
   - 마크업과 스타일링
 
 - Chapter 6: ConsoleAppFramework와 구조적 설계
+
   - ConsoleAppFramework 핵심 개념
   - 커맨드와 서브커맨드 구조
   - 의존성 주입과 설정 관리
@@ -52,7 +59,9 @@
   - 자동 완성과 도움말 생성
 
 ### Part IV: Generic Host와 엔터프라이즈 패턴
+
 - [Chapter 8: Generic Host 기반 콘솔 애플리케이션](./part4-generic-host/chapter08-generic-host.md)
+
   - IHost와 IHostBuilder 이해
   - 의존성 주입 컨테이너 활용
   - 구성(Configuration) 관리
@@ -64,7 +73,9 @@
   - 프로젝트 템플릿 선택 가이드
 
 ### Part V: 고급 기능과 최적화
+
 - Chapter 10: 비동기 프로그래밍과 성능
+
   - 콘솔 애플리케이션에서의 async/await
   - 취소 토큰과 타임아웃 처리
   - 병렬 처리와 동시성
@@ -72,6 +83,7 @@
   - Native AOT와 트리밍
 
 - Chapter 11: 크로스 플랫폼 고려사항
+
   - Windows, Linux, macOS 차이점
   - ANSI 이스케이프 시퀀스
   - 환경 변수와 시스템 정보
@@ -81,11 +93,14 @@
   - 통합 테스트와 E2E 테스트
 
 ### Part VI: 실전 패턴과 베스트 프랙티스
+
 - Chapter 13: 실전 디자인 패턴
+
   - Command 패턴과 CLI 설계
   - Strategy 패턴과 출력 포맷터
 
 - Chapter 14: 도구 간 연동과 자동화
+
   - JSON, XML, YAML 출력 포맷
   - CI/CD 파이프라인 통합
 
@@ -94,11 +109,14 @@
   - 안전한 패스워드 입력
 
 ### Part VII: 사례 연구와 프로젝트
+
 - Chapter 16: 실전 프로젝트 구현
+
   - 파일 관리 도구 만들기
   - 로그 분석 및 모니터링 도구
 
 - Chapter 17: 오픈소스 프로젝트 분석
+
   - dotnet CLI 내부 구조
   - Entity Framework Core CLI
 
@@ -107,6 +125,7 @@
   - 버전 관리와 업데이트
 
 ### 부록 (Appendix)
+
 - Appendix A: 터미널 컨트롤 시퀀스 레퍼런스
 - Appendix B: .NET CLI 도구 템플릿
 - Appendix C: 유용한 NuGet 패키지 목록
@@ -128,16 +147,19 @@ examples/
 ## 학습 경로
 
 ### 초급자 (1-4주)
+
 1. Part I: 터미널의 기초 개념 이해
 2. Part II: .NET BCL로 기본 도구 만들기
 3. Chapter 3-4 예제 실습
 
 ### 중급자 (4-8주)
+
 1. Part III: 고급 라이브러리 활용
 2. Part IV: Generic Host 패턴
 3. Chapter 5, 8 예제 구현
 
 ### 고급자 (8주+)
+
 1. Part V-VII: 최적화와 실전 프로젝트
 2. 오픈소스 프로젝트 분석
 3. 자신만의 CLI 도구 개발
