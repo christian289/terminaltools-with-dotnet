@@ -4,14 +4,18 @@
 
 ### ConsoleAppFramework란?
 
-ConsoleAppFramework는 Cysharp가 개발한 경량 CLI 프레임워크로, 간결한 API와 높은 성능을 제공합니다.
+[ConsoleAppFramework](https://github.com/Cysharp/ConsoleAppFramework)는 Cysharp가 개발한 경량 CLI 프레임워크로, 간결한 API와 높은 성능을 제공합니다.
 
 **주요 특징:**
 - 최소한의 보일러플레이트 코드
 - 자동 커맨드 라인 파싱
-- Generic Host 통합
+- [Generic Host](https://learn.microsoft.com/dotnet/core/extensions/generic-host) 통합
 - 필터 파이프라인
 - 배치 처리 지원
+
+**공식 문서 및 소스 코드:**
+- [GitHub 저장소](https://github.com/Cysharp/ConsoleAppFramework)
+- [NuGet 패키지](https://www.nuget.org/packages/ConsoleAppFramework)
 
 ### 설치
 

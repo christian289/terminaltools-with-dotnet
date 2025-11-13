@@ -6,6 +6,8 @@
 
 ### 10.1 콘솔 애플리케이션에서의 async/await
 
+[비동기 프로그래밍](https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/)은 [async/await](https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/async-scenarios) 키워드를 사용하여 I/O 작업이나 긴 작업을 효율적으로 처리합니다.
+
 ```csharp
 // Main을 async로
 static async Task<int> Main(string[] args)

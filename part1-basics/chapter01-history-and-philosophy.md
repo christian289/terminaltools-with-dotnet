@@ -6,10 +6,6 @@
 
 1969년, [켄 톰슨(Ken Thompson)](https://en.wikipedia.org/wiki/Ken_Thompson)과 [데니스 리치(Dennis Ritchie)](https://en.wikipedia.org/wiki/Dennis_Ritchie)는 벨 연구소에서 유닉스를 개발했습니다. 유닉스는 단순성, 모듈성, 재사용성을 핵심 철학으로 삼았으며, 이는 현대 터미널 도구 개발의 기초가 되었습니다.
 
-**참고 자료:**
-- [The Evolution of the Unix Time-sharing System](https://www.bell-labs.com/usr/dmr/www/hist.html) - Dennis Ritchie의 유닉스 역사
-- [Ken Thompson's Unix](https://www.cs.princeton.edu/courses/archive/fall16/cos316/lectures/04-unix.pdf) - 유닉스 설계 철학
-
 ### 유닉스 철학의 핵심 원칙
 
 [Doug McIlroy](https://en.wikipedia.org/wiki/Douglas_McIlroy)가 정리한 유닉스 철학의 핵심 원칙은 다음과 같습니다:
@@ -30,8 +26,7 @@
 > "This is the Unix philosophy: Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface."
 
 **참고 자료:**
-- [The Bell System Technical Journal - Unix Time-Sharing System](https://archive.org/details/bstj57-6-1899) - McIlroy의 원문
-- [A Quarter Century of Unix](https://www.bell-labs.com/usr/dmr/www/mdmpipe.html) - McIlroy가 설명하는 파이프 발명
+- [The Bell System Technical Journal - Unix Time-Sharing System](https://archive.org/details/bstj57-6-1899) - McIlroy의 원문이 실린 벨 연구소 기술 저널
 
 ### 실제 사례: Unix 도구들
 
@@ -117,9 +112,6 @@ public class SortTool
 Doug McIlroy가 1964년부터 파이프 개념을 제안했지만, Ken Thompson이 1973년 하룻밤 사이에 구현했다고 합니다. McIlroy의 회고에 따르면:
 
 > "I was a long-time advocate of pipes, but the culture at the time was not ready for it. When Ken finally did it, he did it overnight, and it was beautiful."
-
-**참고 자료:**
-- [McIlroy's recollection of pipes](https://minnie.tuhs.org/pipermail/tuhs/2020-March/020664.html) - 파이프 발명 이야기
 
 ```
 프로그램1 | 프로그램2 | 프로그램3
@@ -439,10 +431,6 @@ SSH(Secure Shell)는 1995년 [타투 윌로넨(Tatu Ylönen)](https://en.wikiped
 **개발 배경:**
 Ylönen은 헬싱키 공과대학에서 패스워드 스니핑 공격을 목격한 후, 안전한 원격 접속 프로토콜의 필요성을 느껴 SSH를 개발했습니다.
 
-**참고 자료:**
-- [SSH Communications Security - History of SSH](https://www.ssh.com/academy/ssh/history) - Tatu Ylönen의 SSH 개발 이야기
-- [The Story of SSH](https://www.ssh.com/ssh/protocol/) - SSH 프로토콜 발전사
-
 **SSH가 중요한 이유:**
 - 클라우드 서버 관리 (AWS EC2, Azure VM, GCP Compute Engine)
 - 컨테이너 환경 디버깅
@@ -676,15 +664,13 @@ ssh user@server "cd /app/tool && ./SshFriendlyTool --input data.txt --output res
   - [Wikipedia](https://en.wikipedia.org/wiki/Ken_Thompson)
 
 - **Dennis Ritchie**: 유닉스 공동 창시자, C 언어 개발자
-  - [Dennis Ritchie's Home Page](https://www.bell-labs.com/usr/dmr/www/)
-  - [The Evolution of the Unix Time-sharing System](https://www.bell-labs.com/usr/dmr/www/hist.html)
+  - [ACM Turing Award (1983)](https://amturing.acm.org/award_winners/ritchie_1506389.cfm)
+  - [Wikipedia](https://en.wikipedia.org/wiki/Dennis_Ritchie)
 
 - **Doug McIlroy**: 유닉스 파이프 개념 제안자, 유닉스 철학 정리
   - [Wikipedia](https://en.wikipedia.org/wiki/Douglas_McIlroy)
-  - [A Quarter Century of Unix](https://www.bell-labs.com/usr/dmr/www/mdmpipe.html)
 
 - **Tatu Ylönen**: SSH 프로토콜 개발자
-  - [SSH.com - History](https://www.ssh.com/academy/ssh/history)
   - [Wikipedia](https://en.wikipedia.org/wiki/Tatu_Yl%C3%B6nen)
 
 ### 추가 읽을거리
