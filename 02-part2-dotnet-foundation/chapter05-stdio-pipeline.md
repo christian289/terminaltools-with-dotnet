@@ -1,6 +1,6 @@
-# Chapter 4: 표준 입출력과 파이프라인
+# Chapter 5: 표준 입출력과 파이프라인
 
-## 4.1 stdin, stdout, stderr의 이해
+## 5.1 stdin, stdout, stderr의 이해
 
 ### 파일 디스크립터의 역사
 
@@ -221,7 +221,7 @@ dotnet run | cat
 dotnet run > output.txt 2> error.txt
 ```
 
-## 4.2 리다이렉션과 파이프 처리
+## 5.2 리다이렉션과 파이프 처리
 
 ### 파이프라인 체인
 
@@ -443,7 +443,7 @@ namespace BufferingControl
 }
 ```
 
-## 4.3 텍스트 인코딩과 라인 엔딩 처리
+## 5.3 텍스트 인코딩과 라인 엔딩 처리
 
 ### 인코딩 이슈
 
@@ -717,7 +717,7 @@ namespace LineEndingExample
 }
 ```
 
-## 4.4 바이너리 스트림 처리
+## 5.4 바이너리 스트림 처리
 
 ### 바이너리 데이터 입출력
 
@@ -903,7 +903,7 @@ namespace StreamTeeExample
 }
 ```
 
-## 4.5 다른 프로세스와의 통신
+## 5.5 다른 프로세스와의 통신
 
 ### Process 클래스로 파이프라인 구축
 
