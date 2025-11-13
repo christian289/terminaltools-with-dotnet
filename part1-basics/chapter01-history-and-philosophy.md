@@ -4,11 +4,15 @@
 
 ### 유닉스의 탄생 (1969)
 
-1969년, 켄 톰슨(Ken Thompson)과 데니스 리치(Dennis Ritchie)는 벨 연구소에서 유닉스를 개발했습니다. 유닉스는 단순성, 모듈성, 재사용성을 핵심 철학으로 삼았으며, 이는 현대 터미널 도구 개발의 기초가 되었습니다.
+1969년, [켄 톰슨(Ken Thompson)](https://en.wikipedia.org/wiki/Ken_Thompson)과 [데니스 리치(Dennis Ritchie)](https://en.wikipedia.org/wiki/Dennis_Ritchie)는 벨 연구소에서 유닉스를 개발했습니다. 유닉스는 단순성, 모듈성, 재사용성을 핵심 철학으로 삼았으며, 이는 현대 터미널 도구 개발의 기초가 되었습니다.
+
+**참고 자료:**
+- [The Evolution of the Unix Time-sharing System](https://www.bell-labs.com/usr/dmr/www/hist.html) - Dennis Ritchie의 유닉스 역사
+- [Ken Thompson's Unix](https://www.cs.princeton.edu/courses/archive/fall16/cos316/lectures/04-unix.pdf) - 유닉스 설계 철학
 
 ### 유닉스 철학의 핵심 원칙
 
-Doug McIlroy가 정리한 유닉스 철학의 핵심 원칙은 다음과 같습니다:
+[Doug McIlroy](https://en.wikipedia.org/wiki/Douglas_McIlroy)가 정리한 유닉스 철학의 핵심 원칙은 다음과 같습니다:
 
 1. **한 가지 일을 잘하는 프로그램을 만들어라** (Do One Thing Well)
    - 각 프로그램은 특정한 기능에 집중
@@ -21,6 +25,13 @@ Doug McIlroy가 정리한 유닉스 철학의 핵심 원칙은 다음과 같습�
 3. **보편적 인터페이스를 사용하라** (Universal Interface)
    - 모든 것을 텍스트 스트림으로 취급
    - 파이프라인을 통한 조합 가능
+
+**Doug McIlroy의 원문 (1978):**
+> "This is the Unix philosophy: Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface."
+
+**참고 자료:**
+- [The Bell System Technical Journal - Unix Time-Sharing System](https://archive.org/details/bstj57-6-1899) - McIlroy의 원문
+- [A Quarter Century of Unix](https://www.bell-labs.com/usr/dmr/www/mdmpipe.html) - McIlroy가 설명하는 파이프 발명
 
 ### 실제 사례: Unix 도구들
 
@@ -100,7 +111,15 @@ public class SortTool
 
 ### 파이프라인의 개념
 
-파이프라인은 한 프로그램의 출력을 다른 프로그램의 입력으로 연결하는 메커니즘입니다. 이는 1973년 켄 톰슨이 유닉스 Version 3에 도입했습니다.
+파이프라인은 한 프로그램의 출력을 다른 프로그램의 입력으로 연결하는 메커니즘입니다. 이는 1973년 [켄 톰슨(Ken Thompson)](https://en.wikipedia.org/wiki/Ken_Thompson)이 유닉스 Version 3에 도입했습니다.
+
+**역사적 배경:**
+Doug McIlroy가 1964년부터 파이프 개념을 제안했지만, Ken Thompson이 1973년 하룻밤 사이에 구현했다고 합니다. McIlroy의 회고에 따르면:
+
+> "I was a long-time advocate of pipes, but the culture at the time was not ready for it. When Ken finally did it, he did it overnight, and it was beautiful."
+
+**참고 자료:**
+- [McIlroy's recollection of pipes](https://minnie.tuhs.org/pipermail/tuhs/2020-March/020664.html) - 파이프 발명 이야기
 
 ```
 프로그램1 | 프로그램2 | 프로그램3
@@ -415,7 +434,14 @@ app.Run();
 
 ### SSH의 중요성
 
-SSH(Secure Shell)는 1995년 타투 윌로넨(Tatu Ylönen)이 개발한 암호화된 네트워크 프로토콜로, 원격 시스템에 안전하게 접속하여 명령을 실행할 수 있게 합니다.
+SSH(Secure Shell)는 1995년 [타투 윌로넨(Tatu Ylönen)](https://en.wikipedia.org/wiki/Tatu_Yl%C3%B6nen)이 개발한 암호화된 네트워크 프로토콜로, 원격 시스템에 안전하게 접속하여 명령을 실행할 수 있게 합니다.
+
+**개발 배경:**
+Ylönen은 헬싱키 공과대학에서 패스워드 스니핑 공격을 목격한 후, 안전한 원격 접속 프로토콜의 필요성을 느껴 SSH를 개발했습니다.
+
+**참고 자료:**
+- [SSH Communications Security - History of SSH](https://www.ssh.com/academy/ssh/history) - Tatu Ylönen의 SSH 개발 이야기
+- [The Story of SSH](https://www.ssh.com/ssh/protocol/) - SSH 프로토콜 발전사
 
 **SSH가 중요한 이유:**
 - 클라우드 서버 관리 (AWS EC2, Azure VM, GCP Compute Engine)
@@ -638,5 +664,51 @@ ssh user@server "cd /app/tool && ./SshFriendlyTool --input data.txt --output res
 2. **파이프라인**: stdin → 처리 → stdout 패턴으로 도구들을 조합
 3. **현대적 활용**: CI/CD, 클라우드, 컨테이너 환경에서 필수적
 4. **SSH 고려**: 비대화형, 명확한 exit code, 색상 감지
+
+---
+
+## 참고 문헌 및 추가 자료
+
+### 주요 인물
+
+- **Ken Thompson**: 유닉스 공동 창시자, 파이프 구현
+  - [ACM Turing Award (1983)](https://amturing.acm.org/award_winners/thompson_4588371.cfm)
+  - [Wikipedia](https://en.wikipedia.org/wiki/Ken_Thompson)
+
+- **Dennis Ritchie**: 유닉스 공동 창시자, C 언어 개발자
+  - [Dennis Ritchie's Home Page](https://www.bell-labs.com/usr/dmr/www/)
+  - [The Evolution of the Unix Time-sharing System](https://www.bell-labs.com/usr/dmr/www/hist.html)
+
+- **Doug McIlroy**: 유닉스 파이프 개념 제안자, 유닉스 철학 정리
+  - [Wikipedia](https://en.wikipedia.org/wiki/Douglas_McIlroy)
+  - [A Quarter Century of Unix](https://www.bell-labs.com/usr/dmr/www/mdmpipe.html)
+
+- **Tatu Ylönen**: SSH 프로토콜 개발자
+  - [SSH.com - History](https://www.ssh.com/academy/ssh/history)
+  - [Wikipedia](https://en.wikipedia.org/wiki/Tatu_Yl%C3%B6nen)
+
+### 추가 읽을거리
+
+- [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment) - [Brian Kernighan](https://en.wikipedia.org/wiki/Brian_Kernighan) & [Rob Pike](https://en.wikipedia.org/wiki/Rob_Pike)
+  - Brian Kernighan: C 언어 공동 개발자, AWK 개발자
+  - Rob Pike: UTF-8, Go 언어 공동 개발자
+
+- [The Art of Unix Programming](http://www.catb.org/~esr/writings/taoup/html/) - [Eric S. Raymond](https://en.wikipedia.org/wiki/Eric_S._Raymond)
+  - 오픈소스 운동의 이론가, "The Cathedral and the Bazaar" 저자
+
+- [The Bell System Technical Journal, Vol. 57, No. 6, Part 2 (1978)](https://archive.org/details/bstj57-6-1899) - Unix 특집호
+
+### 영향력 있는 저서
+
+- **"The C Programming Language"** (1978) - Brian Kernighan & Dennis Ritchie
+  - 일명 "K&R", C 언어의 바이블
+  - [Amazon](https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628)
+
+- **"The Practice of Programming"** (1999) - Brian Kernighan & Rob Pike
+  - 프로그래밍 철학과 실무 기법
+
+- **"The Art of Unix Programming"** (2003) - Eric S. Raymond
+  - 유닉스 철학의 현대적 해석
+  - [온라인 버전](http://www.catb.org/~esr/writings/taoup/html/)
 
 다음 챕터에서는 터미널 UX의 전통과 규약에 대해 자세히 살펴보겠습니다.
