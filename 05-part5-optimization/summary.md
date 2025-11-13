@@ -243,7 +243,7 @@ public async Task IntegrationTest()
     // System.CommandLine 통합 테스트
     var rootCommand = CreateRootCommand();
 
-    var result = await rootCommand.InvokeAsync("--input test.txt --output result.txt");
+    var result = await rootCommand.Parse("--input test.txt --output result.txt").InvokeAsync();
 
     Assert.Equal(0, result);
     Assert.True(File.Exists("result.txt"));

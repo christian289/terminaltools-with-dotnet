@@ -62,14 +62,14 @@ var nameOption = new Option<string>(
     "Your name"
 );
 
-rootCommand.AddOption(nameOption);
+rootCommand.Options.Add(nameOption);
 
-rootCommand.SetHandler((name) =>
+rootCommand.SetAction((name) =>
 {
     Console.WriteLine($"Hello, {name}!");
 }, nameOption);
 
-return await rootCommand.InvokeAsync(args);
+return await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ### 4. Generic Host 기반 워커 서비스

@@ -180,10 +180,10 @@ var outputOption = new Option<string>(
     "출력 파일"
 );
 
-rootCommand.AddOption(inputOption);
-rootCommand.AddOption(outputOption);
+rootCommand.Options.Add(inputOption);
+rootCommand.Options.Add(outputOption);
 
-rootCommand.SetHandler(async (input, output) =>
+rootCommand.SetAction(async (input, output) =>
 {
     // Generic Host 구성
     var builder = Host.CreateApplicationBuilder();
@@ -209,7 +209,7 @@ rootCommand.SetHandler(async (input, output) =>
 
 }, inputOption, outputOption);
 
-return await rootCommand.InvokeAsync(args);
+return await rootCommand.Parse(args).InvokeAsync();
 
 // 옵션 클래스
 class CliOptions

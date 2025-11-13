@@ -18,10 +18,10 @@ var cleanCommand = new Command("clean", "오래된 파일 정리");
 var dirArg = new Argument<DirectoryInfo>("directory");
 var daysOption = new Option<int>("--days", () => 30, "보관 기간 (일)");
 
-cleanCommand.AddArgument(dirArg);
-cleanCommand.AddOption(daysOption);
+cleanCommand.Arguments.Add(dirArg);
+cleanCommand.Options.Add(daysOption);
 
-cleanCommand.SetHandler((dir, days) =>
+cleanCommand.SetAction((dir, days) =>
 {
     var cutoffDate = DateTime.Now.AddDays(-days);
     var files = dir.GetFiles("*", SearchOption.AllDirectories)
@@ -38,7 +38,7 @@ cleanCommand.SetHandler((dir, days) =>
 }, dirArg, daysOption);
 
 rootCommand.AddCommand(cleanCommand);
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ### 16.3 로그 분석 도구
