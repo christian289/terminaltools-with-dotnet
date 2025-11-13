@@ -4,12 +4,12 @@
 
 ### Generic Host란?
 
-Generic Host는 .NET Core 2.1에서 도입된 애플리케이션 호스팅 모델입니다. 원래 ASP.NET Core를 위해 만들어진 개념이 콘솔 애플리케이션에도 확장되었습니다.
+[Generic Host](https://learn.microsoft.com/dotnet/core/extensions/generic-host)는 .NET Core 2.1에서 도입된 애플리케이션 호스팅 모델입니다. 원래 [ASP.NET Core](https://learn.microsoft.com/aspnet/core/)를 위해 만들어진 개념이 콘솔 애플리케이션에도 확장되었습니다.
 
 **주요 이점:**
-- 의존성 주입 (DI)
-- 구성 관리 (Configuration)
-- 로깅
+- [의존성 주입](https://learn.microsoft.com/dotnet/core/extensions/dependency-injection) (DI)
+- 구성 관리 ([Configuration](https://learn.microsoft.com/dotnet/core/extensions/configuration))
+- [로깅](https://learn.microsoft.com/dotnet/core/extensions/logging)
 - 백그라운드 서비스
 - 생명주기 관리
 - 우아한 종료

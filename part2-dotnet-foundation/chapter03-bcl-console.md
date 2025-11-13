@@ -4,7 +4,7 @@
 
 ### Console 클래스 개요
 
-`System.Console` 클래스는 .NET의 기본 클래스 라이브러리(BCL)에 포함된 표준 입출력 인터페이스입니다. 외부 라이브러리 없이도 강력한 터미널 애플리케이션을 만들 수 있습니다.
+[`System.Console`](https://learn.microsoft.com/dotnet/api/system.console) 클래스는 [.NET](https://dotnet.microsoft.com/)의 기본 클래스 라이브러리([BCL](https://learn.microsoft.com/dotnet/standard/framework-libraries))에 포함된 표준 입출력 인터페이스입니다. 외부 라이브러리 없이도 강력한 터미널 애플리케이션을 만들 수 있습니다.
 
 ### 주요 속성
 
