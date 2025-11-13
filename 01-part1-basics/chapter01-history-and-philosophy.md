@@ -53,6 +53,10 @@ grep "error" logfile.txt | sort | uniq -c | sort -rn
 .NET 터미널 도구를 개발할 때도 동일한 원칙을 적용할 수 있습니다:
 
 ```csharp
+using System;
+using System.IO;
+using System.Linq;
+
 // 나쁜 예: 모든 것을 하나의 도구에 구현
 public class MegaTool
 {
@@ -74,7 +78,7 @@ public class FilterTool
     static void Main(string[] args)
     {
         string pattern = args[0];
-        string line;
+        string? line;
         while ((line = Console.ReadLine()) != null)
         {
             if (line.Contains(pattern))
@@ -89,7 +93,7 @@ public class SortTool
     static void Main()
     {
         var lines = new List<string>();
-        string line;
+        string? line;
         while ((line = Console.ReadLine()) != null)
         {
             lines.Add(line);
@@ -182,7 +186,7 @@ namespace PipelineExample
     // 파이프라인 실행기
     public class Pipeline
     {
-        private readonly List<IFilter> filters = new();
+        private readonly List<IFilter> filters = new List<IFilter>();
 
         public Pipeline Add(IFilter filter)
         {
@@ -314,6 +318,7 @@ git push origin main
 // 예제: 프로젝트 스캐폴더 도구
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 namespace ProjectScaffold
@@ -474,8 +479,11 @@ Ylönen은 헬싱키 공과대학에서 패스워드 스니핑 공격을 목격�
 
 ```csharp
 using System;
-using System.CommandLine;
+using System.IO;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.CommandLine;
 
 namespace SshFriendlyTool
 {

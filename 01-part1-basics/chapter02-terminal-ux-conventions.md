@@ -39,9 +39,10 @@ command -v -- -not-an-option.txt
 
 ```csharp
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Parsing;
-using System.IO;
 
 namespace PosixStyleCli
 {
@@ -202,8 +203,10 @@ $ echo $?
 
 ```csharp
 using System;
-using System.CommandLine;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.CommandLine;
 
 namespace ExitCodeExample
 {
@@ -373,8 +376,10 @@ git push [<repository>] [<refspec>...]
 
 ```csharp
 using System;
-using System.CommandLine;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.CommandLine;
 
 namespace SubcommandExample
 {
@@ -643,6 +648,8 @@ command help
 
 ```csharp
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Help;
 
@@ -745,10 +752,11 @@ Examples:
 
 ```csharp
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Help;
 using System.CommandLine.IO;
-using System.Linq;
 
 namespace CustomHelpExample
 {
@@ -854,6 +862,7 @@ namespace CustomHelpExample
 
 ```csharp
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 

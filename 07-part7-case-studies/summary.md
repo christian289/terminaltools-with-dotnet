@@ -5,9 +5,13 @@
 ### 16.1 파일 관리 도구
 
 ```csharp
-// 파일 정리 도구 예제
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
+// 파일 정리 도구 예제
 var rootCommand = new RootCommand("파일 관리 도구");
 
 var cleanCommand = new Command("clean", "오래된 파일 정리");
@@ -40,6 +44,12 @@ await rootCommand.InvokeAsync(args);
 ### 16.3 로그 분석 도구
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+
 // 간단한 로그 분석기
 class LogAnalyzer
 {
@@ -73,6 +83,10 @@ class LogAnalyzer
 ### 16.5 대화형 REPL 구현
 
 ```csharp
+using System;
+using System.Data;
+using System.Threading.Tasks;
+
 // 간단한 REPL
 class SimpleRepl
 {
@@ -100,9 +114,10 @@ class SimpleRepl
         }
     }
 
-    double Evaluate(string expression)
+    double Evaluate(string? expression)
     {
         // 간단한 수식 평가 (실제로는 더 복잡)
+        if (string.IsNullOrEmpty(expression)) return 0;
         return new DataTable().Compute(expression, null) as double? ?? 0;
     }
 }
@@ -190,6 +205,9 @@ dotnet publish -c Release -r win-x64 -p:PublishAot=true
 ```
 
 ```csharp
+using System;
+using System.Reflection;
+
 // 버전 정보 표시
 var version = typeof(Program).Assembly
     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?

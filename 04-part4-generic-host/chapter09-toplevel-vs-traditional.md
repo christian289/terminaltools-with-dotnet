@@ -24,6 +24,8 @@ namespace MyApp
 
 **Top-Level 방식:**
 ```csharp
+using System;
+
 Console.WriteLine("Hello World!");
 ```
 
@@ -48,6 +50,8 @@ Console.WriteLine("Hello World!");
 Top-Level Statements는 컴파일러가 자동으로 Main 메서드를 생성합니다.
 
 ```csharp
+using System;
+
 // 작성한 코드
 Console.WriteLine("Args count: " + args.Length);
 foreach (var arg in args)
@@ -91,7 +95,7 @@ global using System.Threading.Tasks;
 global using System.IO;
 global using System.Net.Http;
 
-// Program.cs - using 문 없이 바로 사용
+// Program.cs - global using으로 using 문 없이 바로 사용
 var files = Directory.GetFiles(".");
 var tasks = files.Select(f => File.ReadAllTextAsync(f));
 var contents = await Task.WhenAll(tasks);
@@ -118,6 +122,9 @@ Console.WriteLine($"Read {contents.Length} files");
 ### 간단한 스크립트 (Top-Level 적합)
 
 ```csharp
+using System;
+using System.IO;
+
 // 파일 정리 스크립트
 var targetDir = args.Length > 0 ? args[0] : ".";
 var files = Directory.GetFiles(targetDir);
@@ -282,9 +289,13 @@ Console.WriteLine($"Hello {args[0]}!");
 
 **예시:**
 ```csharp
-// CSV를 JSON으로 변환하는 간단한 도구
+using System;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
+// CSV를 JSON으로 변환하는 간단한 도구
 if (args.Length == 0)
 {
     Console.WriteLine("Usage: csvtojson <input.csv>");
@@ -315,6 +326,7 @@ return 0;
 
 **예시:**
 ```csharp
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MyApp.Services;
@@ -346,6 +358,7 @@ Top-Level에서 시작하되, 복잡해지면 클래스로 분리:
 
 ```csharp
 // Program.cs (Top-Level)
+using System.Threading.Tasks;
 using MyApp;
 
 var app = new Application();
@@ -354,6 +367,8 @@ return await app.RunAsync(args);
 // Application.cs
 namespace MyApp
 {
+    using System.Threading.Tasks;
+
     public class Application
     {
         public async Task<int> RunAsync(string[] args)

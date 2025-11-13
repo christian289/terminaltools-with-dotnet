@@ -27,6 +27,9 @@ dotnet add package System.CommandLine
 ### 핵심 구성 요소
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 // 1. Command: 실행 가능한 명령
@@ -63,6 +66,9 @@ return await rootCommand.InvokeAsync(args);
 ### 옵션 타입
 
 ```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("옵션 데모");
@@ -133,6 +139,9 @@ dotnet run -- --force --output result.txt --retries 5 --format Yaml --tags tag1 
 ### 인자 모델링
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("인자 데모");
@@ -181,6 +190,9 @@ await rootCommand.InvokeAsync(args);
 ### 서브커맨드 구조
 
 ```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("Git 스타일 CLI");
@@ -244,6 +256,8 @@ await rootCommand.InvokeAsync(args);
 ### 커스텀 바인딩
 
 ```csharp
+using System;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Binding;
 using System.CommandLine.Parsing;
@@ -303,6 +317,10 @@ class Config
 ### 탭 완성 활성화
 
 ```csharp
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("완성 기능 데모");
@@ -365,6 +383,9 @@ await rootCommand.InvokeAsync(args);
 ### 커스텀 도움말
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Help;
 
@@ -436,6 +457,10 @@ Examples:
 ### 옵션 검증
 
 ```csharp
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Parsing;
 
@@ -494,6 +519,9 @@ await rootCommand.InvokeAsync(args);
 ### 에러 처리
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand();
