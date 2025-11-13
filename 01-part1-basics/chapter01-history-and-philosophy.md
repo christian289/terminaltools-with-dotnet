@@ -52,8 +52,9 @@ grep "error" logfile.txt | sort | uniq -c | sort -rn
 
 .NET 터미널 도구를 개발할 때도 동일한 원칙을 적용할 수 있습니다:
 
+#### 나쁜 예: 모든 것을 하나의 도구에 구현
+
 ```csharp
-// 나쁜 예: 모든 것을 하나의 도구에 구현
 public class MegaTool
 {
     public void ProcessData()
@@ -66,9 +67,13 @@ public class MegaTool
         File.WriteAllLines("output.txt", transformed);
     }
 }
+```
 
-// 좋은 예: 각 기능을 독립적인 도구로 분리
-// filter.exe: 필터링만 담당
+#### 좋은 예: 각 기능을 독립적인 도구로 분리
+
+filter.exe: 필터링만 담당
+
+```csharp
 public class FilterTool
 {
     static void Main(string[] args)
@@ -110,7 +115,7 @@ public class SortTool
 
 ### 파이프라인의 개념
 
-파이프라인은 한 프로그램의 출력을 다른 프로그램의 입력으로 연결하는 메커니즘입니다. 이는 1973년 [켄 톰슨(Ken Thompson)](https://en.wikipedia.org/wiki/Ken_Thompson)이 유닉스 Version 3에 도입했습니다.
+파이프라인은 한 프로그램의 출력을 다른 프로그램의 입력으로 연결하는 메커니즘입니다. 이는 1973년 켄 톰슨(Ken Thompson)이 유닉스 Version 3에 도입했습니다.
 
 **역사적 배경:**
 Douglas McIlroy가 1964년부터 파이프 개념을 제안했지만, Ken Thompson이 1973년 하룻밤 사이에 구현했다고 합니다. McIlroy의 회고에 따르면:
@@ -254,7 +259,7 @@ echo -e "hello\nworld\nfrom\n.NET" | dotnet run
 
 ### 왜 여전히 터미널인가?
 
-2025년 현재에도 터미널은 다음과 같은 이유로 중요합니다:
+현대에도 터미널은 다음과 같은 이유로 중요합니다:
 
 1. **자동화와 스크립팅**
 
@@ -270,7 +275,7 @@ echo -e "hello\nworld\nfrom\n.NET" | dotnet run
 
 3. **개발 도구 체인**
 
-   - Git, dotnet CLI, npm 등
+   - git, svn, p4, dotnet CLI, dnx, npm, pip, uv 등
    - 빌드 시스템과 테스트 러너
    - 코드 생성 및 스캐폴딩
 
