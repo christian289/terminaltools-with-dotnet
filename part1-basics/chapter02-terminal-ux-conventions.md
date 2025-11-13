@@ -4,7 +4,7 @@
 
 ### POSIX란?
 
-POSIX(Portable Operating System Interface)는 IEEE가 정의한 유닉스 운영체제의 표준 인터페이스입니다. POSIX는 명령행 도구의 동작 방식에 대한 가이드라인을 제공합니다.
+[POSIX](https://en.wikipedia.org/wiki/POSIX)(Portable Operating System Interface)는 [IEEE](https://www.ieee.org/)가 정의한 유닉스 운영체제의 표준 인터페이스입니다. POSIX는 명령행 도구의 동작 방식에 대한 가이드라인을 제공합니다.
 
 ### GNU 스타일 명령행 인자 규약
 
@@ -167,7 +167,7 @@ dotnet run -- -v --output=result.txt file1.txt file2.txt
 
 ### Exit Code 규약
 
-유닉스 시스템에서 프로그램은 종료 시 exit code를 반환합니다:
+유닉스 시스템에서 프로그램은 종료 시 [exit code](https://en.wikipedia.org/wiki/Exit_status)를 반환합니다:
 
 - **0**: 성공
 - **1**: 일반 에러

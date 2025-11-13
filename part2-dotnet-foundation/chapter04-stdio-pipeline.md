@@ -4,11 +4,11 @@
 
 ### 파일 디스크립터의 역사
 
-유닉스 시스템에서 모든 입출력은 파일 디스크립터를 통해 이루어집니다:
+유닉스 시스템에서 모든 입출력은 [파일 디스크립터](https://en.wikipedia.org/wiki/File_descriptor)를 통해 이루어집니다:
 
-- **0 (stdin)**: 표준 입력
-- **1 (stdout)**: 표준 출력
-- **2 (stderr)**: 표준 에러
+- **0 ([stdin](https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin)))**: 표준 입력
+- **1 ([stdout](https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)))**: 표준 출력
+- **2 ([stderr](https://en.wikipedia.org/wiki/Standard_streams#Standard_error_(stderr)))**: 표준 에러
 
 이 개념은 "Everything is a file"이라는 유닉스 철학에서 비롯되었습니다.
 
@@ -446,6 +446,8 @@ namespace BufferingControl
 ## 4.3 텍스트 인코딩과 라인 엔딩 처리
 
 ### 인코딩 이슈
+
+터미널 애플리케이션에서 [문자 인코딩](https://en.wikipedia.org/wiki/Character_encoding) 처리는 매우 중요합니다. 특히 [UTF-8](https://en.wikipedia.org/wiki/UTF-8)과 [Unicode](https://en.wikipedia.org/wiki/Unicode)를 올바르게 처리해야 다국어 지원이 가능합니다.
 
 ```csharp
 using System;

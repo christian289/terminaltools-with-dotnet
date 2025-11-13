@@ -126,9 +126,12 @@
 
 ### 부록 (Appendix)
 
-- Appendix A: 터미널 컨트롤 시퀀스 레퍼런스
-- Appendix B: .NET CLI 도구 템플릿
-- Appendix C: 유용한 NuGet 패키지 목록
+- [Appendix A: 터미널 컨트롤 시퀀스 레퍼런스](./appendix/appendix-a-ansi-codes.md)
+- [Appendix B: .NET CLI 도구 템플릿](./appendix/appendix-b-cli-templates.md)
+- [Appendix C: 성능 벤치마크 결과](./appendix/appendix-c-benchmarks.md)
+- [Appendix D: 트러블슈팅 가이드](./appendix/appendix-d-troubleshooting.md)
+- [Appendix E: 유용한 NuGet 패키지 목록](./appendix/appendix-e-nuget-packages.md)
+- [Appendix F: 기술 용어집 (Technical Glossary)](./appendix/appendix-f-glossary.md)
 
 ## 예제 코드
 

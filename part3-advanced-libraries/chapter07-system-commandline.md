@@ -4,7 +4,7 @@
 
 ### System.CommandLine이란?
 
-System.CommandLine은 Microsoft가 공식적으로 개발하는 CLI 프레임워크로, .NET CLI, dotnet tool 등에서 사용됩니다.
+[System.CommandLine](https://github.com/dotnet/command-line-api)은 Microsoft가 공식적으로 개발하는 CLI 프레임워크로, .NET CLI, dotnet tool 등에서 사용됩니다.
 
 **주요 특징:**
 - 강력한 타입 시스템
@@ -12,6 +12,11 @@ System.CommandLine은 Microsoft가 공식적으로 개발하는 CLI 프레임워
 - 탭 완성 지원
 - POSIX 규약 준수
 - 검증 및 제안 기능
+
+**공식 문서 및 소스 코드:**
+- [GitHub 저장소](https://github.com/dotnet/command-line-api)
+- [NuGet 패키지](https://www.nuget.org/packages/System.CommandLine)
+- [Microsoft 문서](https://learn.microsoft.com/dotnet/standard/commandline/)
 
 ### 설치
 

@@ -4,14 +4,18 @@
 
 ### Spectre.Console이란?
 
-Spectre.Console은 .NET을 위한 현대적인 터미널 UI 라이브러리입니다. 아름답고 기능적인 콘솔 애플리케이션을 쉽게 만들 수 있게 해줍니다.
+[Spectre.Console](https://spectreconsole.net/)은 .NET을 위한 현대적인 터미널 UI 라이브러리입니다. 아름답고 기능적인 콘솔 애플리케이션을 쉽게 만들 수 있게 해줍니다.
 
 **주요 특징:**
 - 풍부한 텍스트 포맷팅 (마크업, 색상, 스타일)
 - 테이블, 트리, 차트등 복잡한 레이아웃
 - 프로그레스 바와 스피너
 - 대화형 프롬프트
-- ANSI 이스케이프 시퀀스 자동 처리
+- [ANSI 이스케이프 시퀀스](https://en.wikipedia.org/wiki/ANSI_escape_code) 자동 처리
+
+**공식 문서 및 소스 코드:**
+- [GitHub 저장소](https://github.com/spectreconsole/spectre.console)
+- [NuGet 패키지](https://www.nuget.org/packages/Spectre.Console)
 
 ### 설치 및 기본 설정
 
