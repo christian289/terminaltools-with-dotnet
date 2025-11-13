@@ -1,6 +1,6 @@
-# Chapter 3: .NET BCL만으로 구현하는 콘솔 애플리케이션
+# Chapter 4: .NET BCL만으로 구현하는 콘솔 애플리케이션
 
-## 3.1 System.Console 클래스 심층 분석
+## 4.1 System.Console 클래스 심층 분석
 
 ### Console 클래스 개요
 
@@ -115,7 +115,7 @@ namespace StreamAccess
 }
 ```
 
-## 3.2 CommandLineArgs 처리와 파싱
+## 4.2 CommandLineArgs 처리와 파싱
 
 ### 기본 인자 처리
 
@@ -441,7 +441,7 @@ namespace AdvancedArgParser
 }
 ```
 
-## 3.3 표준 입출력 스트림 다루기
+## 4.3 표준 입출력 스트림 다루기
 
 ### stdin으로 라인 단위 읽기
 
@@ -631,7 +631,7 @@ dotnet run -- input.txt > output.txt 2> error.log
 dotnet run -- input.txt 2>&1 | grep "ERROR"
 ```
 
-## 3.4 Console 색상과 커서 제어
+## 4.4 Console 색상과 커서 제어
 
 ### 색상 출력
 
@@ -887,7 +887,7 @@ namespace CursorExample
 }
 ```
 
-## 3.5 키 입력과 이벤트 처리
+## 4.5 키 입력과 이벤트 처리
 
 ### 키 입력 읽기
 
