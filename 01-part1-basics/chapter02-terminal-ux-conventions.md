@@ -39,9 +39,10 @@ command -v -- -not-an-option.txt
 
 ```csharp
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Parsing;
-using System.IO;
 
 namespace PosixStyleCli
 {
@@ -76,17 +77,17 @@ namespace PosixStyleCli
                 description: "처리할 입력 파일들"
             ) { Arity = ArgumentArity.OneOrMore };
 
-            rootCommand.AddOption(verboseOption);
-            rootCommand.AddOption(outputOption);
-            rootCommand.AddOption(forceOption);
-            rootCommand.AddArgument(inputArgument);
+            rootCommand.Options.Add(verboseOption);
+            rootCommand.Options.Add(outputOption);
+            rootCommand.Options.Add(forceOption);
+            rootCommand.Arguments.Add(inputArgument);
 
-            rootCommand.SetHandler((verbose, output, force, inputs) =>
+            rootCommand.SetAction((verbose, output, force, inputs) =>
             {
                 ProcessFiles(inputs, output, verbose, force);
             }, verboseOption, outputOption, forceOption, inputArgument);
 
-            return await rootCommand.InvokeAsync(args);
+            return await rootCommand.Parse(args).InvokeAsync();
         }
 
         static void ProcessFiles(FileInfo[] inputs, FileInfo? output, bool verbose, bool force)
@@ -202,8 +203,10 @@ $ echo $?
 
 ```csharp
 using System;
-using System.CommandLine;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.CommandLine;
 
 namespace ExitCodeExample
 {
@@ -240,16 +243,16 @@ namespace ExitCodeExample
                 description: "타임아웃 (초)"
             );
 
-            rootCommand.AddArgument(patternArgument);
-            rootCommand.AddArgument(fileArgument);
-            rootCommand.AddOption(timeoutOption);
+            rootCommand.Arguments.Add(patternArgument);
+            rootCommand.Arguments.Add(fileArgument);
+            rootCommand.Options.Add(timeoutOption);
 
-            rootCommand.SetHandler((pattern, file, timeout) =>
+            rootCommand.SetAction((pattern, file, timeout) =>
             {
                 return SearchFile(pattern, file, timeout);
             }, patternArgument, fileArgument, timeoutOption);
 
-            return await rootCommand.InvokeAsync(args);
+            return await rootCommand.Parse(args).InvokeAsync();
         }
 
         static int SearchFile(string pattern, FileInfo file, int timeout)
@@ -373,8 +376,10 @@ git push [<repository>] [<refspec>...]
 
 ```csharp
 using System;
-using System.CommandLine;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.CommandLine;
 
 namespace SubcommandExample
 {
@@ -432,10 +437,10 @@ namespace SubcommandExample
                 description: "하위 디렉토리 포함"
             );
 
-            command.AddArgument(pathArgument);
-            command.AddOption(recursiveOption);
+            command.Arguments.Add(pathArgument);
+            command.Options.Add(recursiveOption);
 
-            command.SetHandler((path, recursive, verbose) =>
+            command.SetAction((path, recursive, verbose) =>
             {
                 ListFiles(path, recursive, verbose);
             }, pathArgument, recursiveOption,
@@ -463,11 +468,11 @@ namespace SubcommandExample
                 description: "기존 파일 덮어쓰기"
             );
 
-            command.AddArgument(sourceArgument);
-            command.AddArgument(destArgument);
-            command.AddOption(forceOption);
+            command.Arguments.Add(sourceArgument);
+            command.Arguments.Add(destArgument);
+            command.Options.Add(forceOption);
 
-            command.SetHandler((source, dest, force, verbose) =>
+            command.SetAction((source, dest, force, verbose) =>
             {
                 CopyFile(source, dest, force, verbose);
             }, sourceArgument, destArgument, forceOption,
@@ -490,10 +495,10 @@ namespace SubcommandExample
                 description: "확인 없이 삭제"
             );
 
-            command.AddArgument(fileArgument);
-            command.AddOption(forceOption);
+            command.Arguments.Add(fileArgument);
+            command.Options.Add(forceOption);
 
-            command.SetHandler((files, force, verbose) =>
+            command.SetAction((files, force, verbose) =>
             {
                 DeleteFiles(files, force, verbose);
             }, fileArgument, forceOption,
@@ -643,6 +648,8 @@ command help
 
 ```csharp
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Help;
 
@@ -688,21 +695,21 @@ namespace HelpExample
                 }
             });
 
-            rootCommand.AddOption(inputOption);
-            rootCommand.AddOption(outputOption);
-            rootCommand.AddOption(formatOption);
+            rootCommand.Options.Add(inputOption);
+            rootCommand.Options.Add(outputOption);
+            rootCommand.Options.Add(formatOption);
 
             // 예제 추가
             rootCommand.AddExample("-i data.txt -o result.json -f json");
             rootCommand.AddExample("-i data.csv -f xml");
             rootCommand.AddExample("--input log.txt --format text");
 
-            rootCommand.SetHandler((input, output, format) =>
+            rootCommand.SetAction((input, output, format) =>
             {
                 ProcessData(input, output, format);
             }, inputOption, outputOption, formatOption);
 
-            return await rootCommand.InvokeAsync(args);
+            return await rootCommand.Parse(args).InvokeAsync();
         }
 
         static void ProcessData(FileInfo input, FileInfo? output, string format)
@@ -745,10 +752,11 @@ Examples:
 
 ```csharp
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Help;
 using System.CommandLine.IO;
-using System.Linq;
 
 namespace CustomHelpExample
 {
@@ -809,9 +817,9 @@ namespace CustomHelpExample
                 "입력 파일"
             ) { IsRequired = true };
 
-            rootCommand.AddOption(inputOption);
+            rootCommand.Options.Add(inputOption);
 
-            rootCommand.SetHandler((input) =>
+            rootCommand.SetAction((input) =>
             {
                 Console.WriteLine($"처리: {input.FullName}");
             }, inputOption);
@@ -822,7 +830,7 @@ namespace CustomHelpExample
                 .UseHelpBuilder(context => new ColorfulHelpBuilder(context.Console))
                 .Build();
 
-            return await commandLineBuilder.InvokeAsync(args);
+            return await commandLineBuilder.Parse(args).InvokeAsync();
         }
     }
 }
@@ -854,6 +862,7 @@ namespace CustomHelpExample
 
 ```csharp
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 

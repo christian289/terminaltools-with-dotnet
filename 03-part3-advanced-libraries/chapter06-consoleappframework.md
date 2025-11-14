@@ -28,6 +28,7 @@ dotnet add package ConsoleAppFramework
 ### 기본 사용법
 
 ```csharp
+using System;
 using ConsoleAppFramework;
 
 // 최소 코드로 CLI 작성
@@ -48,6 +49,8 @@ dotnet run -- --name John --age 30
 ### 메서드 기반 커맨드
 
 ```csharp
+using System;
+using System.IO;
 using ConsoleAppFramework;
 
 var app = ConsoleApp.Create();
@@ -128,6 +131,7 @@ dotnet run -- list --path . --recursive
 ### Git 스타일 서브커맨드
 
 ```csharp
+using System;
 using ConsoleAppFramework;
 
 var app = ConsoleApp.Create();
@@ -180,6 +184,7 @@ public class GitCommands
 ### 중첩된 커맨드 그룹
 
 ```csharp
+using System;
 using ConsoleAppFramework;
 
 var app = ConsoleApp.Create();
@@ -239,6 +244,8 @@ public class DockerImageCommands
 ### DI 통합
 
 ```csharp
+using System;
+using System.Threading;
 using ConsoleAppFramework;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -318,9 +325,13 @@ public class FileCommands
 ### 구성 관리
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using ConsoleAppFramework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 var app = ConsoleApp.Create();
 
@@ -401,6 +412,9 @@ public class DataCommands
 ### 글로벌 필터
 
 ```csharp
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using ConsoleAppFramework;
 using ConsoleAppFramework.Filters;
 
@@ -453,6 +467,9 @@ public class ErrorHandlingFilter : ConsoleAppFilter
 ### 배치 모드
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using ConsoleAppFramework;
 
 var app = ConsoleApp.Create();

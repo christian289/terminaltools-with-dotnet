@@ -121,7 +121,6 @@ namespace StreamAccess
 
 ```csharp
 using System;
-using System.Linq;
 
 namespace CommandLineArgs
 {
@@ -160,8 +159,8 @@ namespace ManualArgParser
     public class CommandLineParser
     {
         private readonly string[] args;
-        private readonly Dictionary<string, string> options = new();
-        private readonly List<string> positionalArgs = new();
+        private readonly Dictionary<string, string> options = new Dictionary<string, string>();
+        private readonly List<string> positionalArgs = new List<string>();
 
         public CommandLineParser(string[] args)
         {
@@ -319,12 +318,13 @@ dotnet run -- --verbose --output=result.txt -- -not-an-option.txt
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AdvancedArgParser
 {
     public class ArgumentValidator
     {
-        private readonly List<string> errors = new();
+        private readonly List<string> errors = new List<string>();
 
         public void ValidateRequired(string? value, string name)
         {
@@ -448,6 +448,7 @@ namespace AdvancedArgParser
 ```csharp
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace StdinExample
 {
@@ -482,7 +483,7 @@ namespace StdinExample
         static void ProcessInput(TextReader reader)
         {
             string? line;
-            var lines = new System.Collections.Generic.List<string>();
+            var lines = new List<string>();
 
             while ((line = reader.ReadLine()) != null)
             {
@@ -763,6 +764,7 @@ namespace ColorExample
 
 ```csharp
 using System;
+using System.IO;
 using System.Threading;
 
 namespace CursorExample
@@ -893,6 +895,7 @@ namespace CursorExample
 
 ```csharp
 using System;
+using System.Threading;
 
 namespace KeyInputExample
 {
@@ -975,7 +978,7 @@ namespace KeyInputExample
                     case ConsoleKey.Enter:
                         Console.Clear();
                         Console.WriteLine($"선택됨: {options[selected]}");
-                        Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(1000);
                         return;
 
                     case ConsoleKey.Escape:

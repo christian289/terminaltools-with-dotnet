@@ -79,7 +79,7 @@ public class FilterTool
     static void Main(string[] args)
     {
         string pattern = args[0];
-        string line;
+        string? line;
         while ((line = Console.ReadLine()) != null)
         {
             if (line.Contains(pattern))
@@ -94,7 +94,7 @@ public class SortTool
     static void Main()
     {
         var lines = new List<string>();
-        string line;
+        string? line;
         while ((line = Console.ReadLine()) != null)
         {
             lines.Add(line);
@@ -187,7 +187,7 @@ namespace PipelineExample
     // 파이프라인 실행기
     public class Pipeline
     {
-        private readonly List<IFilter> filters = new();
+        private readonly List<IFilter> filters = new List<IFilter>();
 
         public Pipeline Add(IFilter filter)
         {
@@ -319,6 +319,7 @@ git push origin main
 // 예제: 프로젝트 스캐폴더 도구
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 namespace ProjectScaffold
@@ -340,15 +341,15 @@ namespace ProjectScaffold
                 description: "프로젝트 템플릿 (console, webapi, classlib)"
             );
 
-            rootCommand.AddOption(nameOption);
-            rootCommand.AddOption(templateOption);
+            rootCommand.Options.Add(nameOption);
+            rootCommand.Options.Add(templateOption);
 
-            rootCommand.SetHandler((name, template) =>
+            rootCommand.SetAction((name, template) =>
             {
                 CreateProject(name, template);
             }, nameOption, templateOption);
 
-            return await rootCommand.InvokeAsync(args);
+            return await rootCommand.Parse(args).InvokeAsync();
         }
 
         static void CreateProject(string name, string template)
@@ -479,8 +480,11 @@ Ylönen은 헬싱키 공과대학에서 패스워드 스니핑 공격을 목격�
 
 ```csharp
 using System;
-using System.CommandLine;
+using System.IO;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.CommandLine;
 
 namespace SshFriendlyTool
 {
@@ -510,12 +514,12 @@ namespace SshFriendlyTool
                 description: "색상 출력 비활성화"
             );
 
-            rootCommand.AddOption(inputOption);
-            rootCommand.AddOption(outputOption);
-            rootCommand.AddOption(verboseOption);
-            rootCommand.AddOption(noColorOption);
+            rootCommand.Options.Add(inputOption);
+            rootCommand.Options.Add(outputOption);
+            rootCommand.Options.Add(verboseOption);
+            rootCommand.Options.Add(noColorOption);
 
-            rootCommand.SetHandler((input, output, verbose, noColor) =>
+            rootCommand.SetAction((input, output, verbose, noColor) =>
             {
                 // 터미널 감지
                 bool isInteractive = Console.IsInputRedirected == false
@@ -526,7 +530,7 @@ namespace SshFriendlyTool
                 return processor.Process(input, output);
             }, inputOption, outputOption, verboseOption, noColorOption);
 
-            return await rootCommand.InvokeAsync(args);
+            return await rootCommand.Parse(args).InvokeAsync();
         }
 
         static bool SupportsAnsi()

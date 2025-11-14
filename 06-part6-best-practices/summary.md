@@ -5,6 +5,9 @@
 ### 13.1 Command 패턴
 
 ```csharp
+using System.IO;
+using System.Threading.Tasks;
+
 interface ICommand
 {
     Task ExecuteAsync();
@@ -36,6 +39,8 @@ await command.ExecuteAsync();
 ### 13.2 Chain of Responsibility (파이프라인)
 
 ```csharp
+using System.Threading.Tasks;
+
 interface IPipelineStep
 {
     Task<string> ProcessAsync(string input);
@@ -66,6 +71,11 @@ var result = await pipeline.AggregateAsync(input, async (current, step) =>
 ### 13.3 Strategy 패턴 (출력 포맷터)
 
 ```csharp
+using System;
+using System.IO;
+using System.Text.Json;
+using System.Xml.Serialization;
+
 interface IOutputFormatter
 {
     string Format(object data);
@@ -104,6 +114,9 @@ Console.WriteLine(formatter.Format(data));
 ### 14.1 JSON, XML, YAML 출력
 
 ```csharp
+using System;
+using System.Text.Json;
+
 class MultiFormatOutput
 {
     public static void Output(object data, string format)
@@ -166,6 +179,8 @@ jobs:
 ### 15.1 민감한 정보 처리
 
 ```csharp
+using System;
+
 // User Secrets (개발 환경)
 // dotnet user-secrets set "ApiKey" "secret-key-123"
 
@@ -181,6 +196,9 @@ var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 ### 15.2 안전한 패스워드 입력
 
 ```csharp
+using System;
+using System.Text;
+
 static string ReadPassword()
 {
     var password = new StringBuilder();
@@ -212,6 +230,9 @@ static string ReadPassword()
 ### 15.4 환경 변수와 시크릿 관리
 
 ```csharp
+using System;
+using Microsoft.Extensions.Configuration;
+
 // 환경별 설정
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 

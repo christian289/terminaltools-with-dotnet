@@ -9,6 +9,10 @@
 [비동기 프로그래밍](https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/)은 [async/await](https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/async-scenarios) 키워드를 사용하여 I/O 작업이나 긴 작업을 효율적으로 처리합니다.
 
 ```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 // Main을 async로
 static async Task<int> Main(string[] args)
 {
@@ -24,6 +28,10 @@ await Task.WhenAll(tasks);
 ### 10.2 취소 토큰과 타임아웃
 
 ```csharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
 try
@@ -39,6 +47,10 @@ catch (OperationCanceledException)
 ### 10.3 병렬 처리와 동시성
 
 ```csharp
+using System.Threading;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+
 // Parallel.ForEachAsync (.NET 6+)
 await Parallel.ForEachAsync(items, async (item, ct) =>
 {
@@ -68,6 +80,9 @@ await foreach (var item in channel.Reader.ReadAllAsync())
 ### 10.4 메모리 최적화 (Span<T>, Memory<T>)
 
 ```csharp
+using System;
+using System.Threading.Tasks;
+
 // Span<T>로 메모리 할당 최소화
 ReadOnlySpan<char> ProcessLine(ReadOnlySpan<char> line)
 {
@@ -110,6 +125,9 @@ dotnet publish -c Release
 ### 11.1 Windows, Linux, macOS 차이점
 
 ```csharp
+using System;
+using System.IO;
+
 var separator = Path.DirectorySeparatorChar;  // Windows: \, Unix: /
 var newLine = Environment.NewLine;  // Windows: \r\n, Unix: \n
 
@@ -146,6 +164,8 @@ bool EnableAnsiSupport()
 ### 11.4 파일 시스템과 경로 처리
 
 ```csharp
+using System.IO;
+
 // 크로스 플랫폼 경로 처리
 var path = Path.Combine("data", "files", "log.txt");
 
@@ -153,7 +173,7 @@ var path = Path.Combine("data", "files", "log.txt");
 var file = Path.Combine(baseDir, "subfolder", "file.txt");
 
 // 잘못됨: 하드코딩
-var file = $"{baseDir}\\subfolder\\file.txt";  // Windows만 작동
+var wrongFile = $"{baseDir}\\subfolder\\file.txt";  // Windows만 작동
 ```
 
 ## Chapter 12: 테스팅과 디버깅
@@ -161,6 +181,8 @@ var file = $"{baseDir}\\subfolder\\file.txt";  // Windows만 작동
 ### 12.1 콘솔 출력 테스팅
 
 ```csharp
+using System;
+using System.IO;
 using Xunit;
 
 public class ConsoleAppTests
@@ -184,6 +206,10 @@ public class ConsoleAppTests
 ### 12.2 입력 시뮬레이션
 
 ```csharp
+using System;
+using System.IO;
+using Xunit;
+
 [Fact]
 public void TestConsoleInput()
 {
@@ -207,13 +233,17 @@ public void TestConsoleInput()
 ### 12.3 통합 테스트
 
 ```csharp
+using System.IO;
+using System.Threading.Tasks;
+using Xunit;
+
 [Fact]
 public async Task IntegrationTest()
 {
     // System.CommandLine 통합 테스트
     var rootCommand = CreateRootCommand();
 
-    var result = await rootCommand.InvokeAsync("--input test.txt --output result.txt");
+    var result = await rootCommand.Parse("--input test.txt --output result.txt").InvokeAsync();
 
     Assert.Equal(0, result);
     Assert.True(File.Exists("result.txt"));
@@ -223,6 +253,7 @@ public async Task IntegrationTest()
 ### 12.5 성능 프로파일링
 
 ```csharp
+using System;
 using System.Diagnostics;
 
 var sw = Stopwatch.StartNew();

@@ -276,6 +276,7 @@ namespace Filter
 **2. 변환 도구 (transform.csproj)**
 ```csharp
 using System;
+using System.Linq;
 
 namespace Transform
 {
@@ -555,6 +556,7 @@ namespace EncodingExample
 ```csharp
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace LineEndingExample

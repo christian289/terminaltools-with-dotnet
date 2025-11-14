@@ -296,8 +296,9 @@ class ChartExamples
 ### 프로그레스 바
 
 ```csharp
-using Spectre.Console;
+using System;
 using System.Threading;
+using Spectre.Console;
 
 class ProgressExamples
 {
@@ -440,8 +441,9 @@ public class TransferSpeedColumn : ProgressColumn
 ### 스피너와 스테이터스
 
 ```csharp
-using Spectre.Console;
+using System;
 using System.Threading;
+using Spectre.Console;
 
 class SpinnerExamples
 {
@@ -529,6 +531,8 @@ class SpinnerExamples
 ### 텍스트 입력
 
 ```csharp
+using System;
+using System.Linq;
 using Spectre.Console;
 
 class PromptExamples
@@ -626,6 +630,8 @@ class PromptExamples
 ### 선택 메뉴
 
 ```csharp
+using System;
+using System.Linq;
 using Spectre.Console;
 
 class SelectionExamples
@@ -877,9 +883,10 @@ class StyleExamples
 ### 종합 예제: CLI 도구
 
 ```csharp
-using Spectre.Console;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Spectre.Console;
 
 class ComprehensiveExample
 {

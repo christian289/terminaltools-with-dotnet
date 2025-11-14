@@ -17,8 +17,11 @@
 ### 기본 Generic Host 애플리케이션
 
 ```csharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DI;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 // .NET 6+ Top-Level Statements
@@ -59,6 +62,7 @@ class Worker : BackgroundService
 ### 전통적인 Main 메서드 스타일
 
 ```csharp
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -94,8 +98,11 @@ namespace GenericHostExample
 ### 서비스 등록 패턴
 
 ```csharp
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -152,6 +159,10 @@ class DataProcessor : IDataProcessor
 ### 실전 예제: CLI 도구
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -169,10 +180,10 @@ var outputOption = new Option<string>(
     "출력 파일"
 );
 
-rootCommand.AddOption(inputOption);
-rootCommand.AddOption(outputOption);
+rootCommand.Options.Add(inputOption);
+rootCommand.Options.Add(outputOption);
 
-rootCommand.SetHandler(async (input, output) =>
+rootCommand.SetAction(async (input, output) =>
 {
     // Generic Host 구성
     var builder = Host.CreateApplicationBuilder();
@@ -198,7 +209,7 @@ rootCommand.SetHandler(async (input, output) =>
 
 }, inputOption, outputOption);
 
-return await rootCommand.InvokeAsync(args);
+return await rootCommand.Parse(args).InvokeAsync();
 
 // 옵션 클래스
 class CliOptions
@@ -335,9 +346,13 @@ class FileWriter : IFileWriter
 ```
 
 ```csharp
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -445,6 +460,9 @@ else
 ### 로깅 설정
 
 ```csharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -521,6 +539,9 @@ class LoggingWorker : BackgroundService
 ### 백그라운드 서비스 패턴
 
 ```csharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -644,7 +665,11 @@ class ManagedService : IHostedService
 ### 우아한 종료
 
 ```csharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);

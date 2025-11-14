@@ -27,6 +27,9 @@ dotnet add package System.CommandLine
 ### 핵심 구성 요소
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 // 1. Command: 실행 가능한 명령
@@ -45,7 +48,7 @@ var fileArgument = new Argument<FileInfo>(
 );
 
 // 4. Handler: 실행 로직
-rootCommand.SetHandler((file, verbose) =>
+rootCommand.SetAction((file, verbose) =>
 {
     Console.WriteLine($"Processing: {file.FullName}");
     if (verbose)
@@ -55,7 +58,7 @@ rootCommand.SetHandler((file, verbose) =>
 }, fileArgument, verboseOption);
 
 // 실행
-return await rootCommand.InvokeAsync(args);
+return await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ## 7.2 커맨드, 옵션, 인자 모델링
@@ -63,6 +66,9 @@ return await rootCommand.InvokeAsync(args);
 ### 옵션 타입
 
 ```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("옵션 데모");
@@ -99,13 +105,13 @@ var tagsOption = new Option<string[]>(
     description: "태그 목록"
 ) { AllowMultipleArgumentsPerToken = true };
 
-rootCommand.AddOption(forceOption);
-rootCommand.AddOption(outputOption);
-rootCommand.AddOption(retriesOption);
-rootCommand.AddOption(formatOption);
-rootCommand.AddOption(tagsOption);
+rootCommand.Options.Add(forceOption);
+rootCommand.Options.Add(outputOption);
+rootCommand.Options.Add(retriesOption);
+rootCommand.Options.Add(formatOption);
+rootCommand.Options.Add(tagsOption);
 
-rootCommand.SetHandler((force, output, retries, format, tags) =>
+rootCommand.SetAction((force, output, retries, format, tags) =>
 {
     Console.WriteLine($"Force: {force}");
     Console.WriteLine($"Output: {output ?? "(none)"}");
@@ -114,7 +120,7 @@ rootCommand.SetHandler((force, output, retries, format, tags) =>
     Console.WriteLine($"Tags: {string.Join(", ", tags ?? Array.Empty<string>())}");
 }, forceOption, outputOption, retriesOption, formatOption, tagsOption);
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 
 enum OutputFormat
 {
@@ -133,6 +139,9 @@ dotnet run -- --force --output result.txt --retries 5 --format Yaml --tags tag1 
 ### 인자 모델링
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("인자 데모");
@@ -156,10 +165,10 @@ var filesArgument = new Argument<FileInfo[]>(
 ) { Arity = ArgumentArity.OneOrMore };
 
 var command = new Command("copy", "파일 복사");
-command.AddArgument(sourceArgument);
-command.AddArgument(destinationArgument);
+command.Arguments.Add(sourceArgument);
+command.Arguments.Add(destinationArgument);
 
-command.SetHandler((source, destination) =>
+command.SetAction((source, destination) =>
 {
     Console.WriteLine($"Source: {source.FullName}");
     Console.WriteLine($"Destination: {destination?.FullName ?? "(stdout)"}");
@@ -175,12 +184,15 @@ command.SetHandler((source, destination) =>
 }, sourceArgument, destinationArgument);
 
 rootCommand.AddCommand(command);
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ### 서브커맨드 구조
 
 ```csharp
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("Git 스타일 CLI");
@@ -189,9 +201,9 @@ var rootCommand = new RootCommand("Git 스타일 CLI");
 var addCommand = new Command("add", "스테이징에 파일 추가");
 var addFilesArg = new Argument<string[]>("files") { Arity = ArgumentArity.OneOrMore };
 var addAllOption = new Option<bool>(new[] { "-A", "--all" }, "모든 변경사항 추가");
-addCommand.AddArgument(addFilesArg);
-addCommand.AddOption(addAllOption);
-addCommand.SetHandler((files, all) =>
+addCommand.Arguments.Add(addFilesArg);
+addCommand.Options.Add(addAllOption);
+addCommand.SetAction((files, all) =>
 {
     if (all)
     {
@@ -210,9 +222,9 @@ addCommand.SetHandler((files, all) =>
 var commitCommand = new Command("commit", "변경사항 커밋");
 var messageOption = new Option<string>(new[] { "-m", "--message" }, "커밋 메시지") { IsRequired = true };
 var amendOption = new Option<bool>("--amend", "이전 커밋 수정");
-commitCommand.AddOption(messageOption);
-commitCommand.AddOption(amendOption);
-commitCommand.SetHandler((message, amend) =>
+commitCommand.Options.Add(messageOption);
+commitCommand.Options.Add(amendOption);
+commitCommand.SetAction((message, amend) =>
 {
     Console.WriteLine($"Committing: {message}");
     if (amend)
@@ -225,9 +237,9 @@ commitCommand.SetHandler((message, amend) =>
 var logCommand = new Command("log", "커밋 히스토리 표시");
 var onelineOption = new Option<bool>("--oneline", "한 줄로 표시");
 var maxCountOption = new Option<int?>(new[] { "-n", "--max-count" }, "최대 표시 개수");
-logCommand.AddOption(onelineOption);
-logCommand.AddOption(maxCountOption);
-logCommand.SetHandler((oneline, maxCount) =>
+logCommand.Options.Add(onelineOption);
+logCommand.Options.Add(maxCountOption);
+logCommand.SetAction((oneline, maxCount) =>
 {
     Console.WriteLine($"Showing log (oneline: {oneline}, max: {maxCount?.ToString() ?? "all"})");
 }, onelineOption, maxCountOption);
@@ -236,7 +248,7 @@ rootCommand.AddCommand(addCommand);
 rootCommand.AddCommand(commitCommand);
 rootCommand.AddCommand(logCommand);
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ## 7.3 파싱과 바인딩 메커니즘
@@ -244,6 +256,8 @@ await rootCommand.InvokeAsync(args);
 ### 커스텀 바인딩
 
 ```csharp
+using System;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Binding;
 using System.CommandLine.Parsing;
@@ -279,16 +293,16 @@ var hostOption = new Option<string>("--host", () => "localhost");
 var portOption = new Option<int>("--port", () => 8080);
 var sslOption = new Option<bool>("--ssl");
 
-rootCommand.AddOption(hostOption);
-rootCommand.AddOption(portOption);
-rootCommand.AddOption(sslOption);
+rootCommand.Options.Add(hostOption);
+rootCommand.Options.Add(portOption);
+rootCommand.Options.Add(sslOption);
 
-rootCommand.SetHandler((config) =>
+rootCommand.SetAction((config) =>
 {
     Console.WriteLine($"Connecting to {(config.UseSsl ? "https" : "http")}://{config.Host}:{config.Port}");
 }, new ConfigBinder(hostOption, portOption, sslOption));
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 
 class Config
 {
@@ -303,6 +317,10 @@ class Config
 ### 탭 완성 활성화
 
 ```csharp
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand("완성 기능 데모");
@@ -331,15 +349,15 @@ fileOption.AddCompletions(ctx =>
         .ToArray();
 });
 
-rootCommand.AddOption(environmentOption);
-rootCommand.AddOption(fileOption);
+rootCommand.Options.Add(environmentOption);
+rootCommand.Options.Add(fileOption);
 
 // 탭 완성 스크립트 생성 커맨드
 var completionCommand = new Command("completion", "탭 완성 스크립트 생성");
 
 // Bash 완성
 var bashCompletion = new Command("bash", "Bash 완성 스크립트");
-bashCompletion.SetHandler(() =>
+bashCompletion.SetAction(() =>
 {
     Console.WriteLine("# Bash completion script");
     Console.WriteLine("# Run: eval \"$(myapp completion bash)\"");
@@ -348,7 +366,7 @@ bashCompletion.SetHandler(() =>
 
 // PowerShell 완성
 var pwshCompletion = new Command("pwsh", "PowerShell 완성 스크립트");
-pwshCompletion.SetHandler(() =>
+pwshCompletion.SetAction(() =>
 {
     Console.WriteLine("# PowerShell completion script");
     Console.WriteLine("# Add to profile: myapp completion pwsh | Out-String | Invoke-Expression");
@@ -359,12 +377,15 @@ completionCommand.AddCommand(bashCompletion);
 completionCommand.AddCommand(pwshCompletion);
 rootCommand.AddCommand(completionCommand);
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ### 커스텀 도움말
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Help;
 
@@ -390,20 +411,20 @@ var formatOption = new Option<string>(
                  "  csv    : CSV 형식"
 );
 
-rootCommand.AddOption(inputOption);
-rootCommand.AddOption(formatOption);
+rootCommand.Options.Add(inputOption);
+rootCommand.Options.Add(formatOption);
 
 // 예제 추가
 rootCommand.AddExample(new[] { "-i", "data.txt", "-f", "json" });
 rootCommand.AddExample(new[] { "--input", "data.csv", "--format", "xml" });
 
-rootCommand.SetHandler((input, format) =>
+rootCommand.SetAction((input, format) =>
 {
     Console.WriteLine($"Processing: {input.FullName}");
     Console.WriteLine($"Format: {format}");
 }, inputOption, formatOption);
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 ```
 
 **생성되는 도움말:**
@@ -436,6 +457,10 @@ Examples:
 ### 옵션 검증
 
 ```csharp
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.CommandLine;
 using System.CommandLine.Parsing;
 
@@ -477,32 +502,35 @@ formatOption.AddValidator(result =>
     }
 });
 
-rootCommand.AddOption(inputOption);
-rootCommand.AddOption(portOption);
-rootCommand.AddOption(formatOption);
+rootCommand.Options.Add(inputOption);
+rootCommand.Options.Add(portOption);
+rootCommand.Options.Add(formatOption);
 
-rootCommand.SetHandler((input, port, format) =>
+rootCommand.SetAction((input, port, format) =>
 {
     Console.WriteLine($"Input: {input?.FullName}");
     Console.WriteLine($"Port: {port}");
     Console.WriteLine($"Format: {format}");
 }, inputOption, portOption, formatOption);
 
-await rootCommand.InvokeAsync(args);
+await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ### 에러 처리
 
 ```csharp
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.CommandLine;
 
 var rootCommand = new RootCommand();
 
 var fileArg = new Argument<FileInfo>("file");
 
-rootCommand.AddArgument(fileArg);
+rootCommand.Arguments.Add(fileArg);
 
-rootCommand.SetHandler(async (file) =>
+rootCommand.SetAction(async (file) =>
 {
     try
     {
@@ -527,7 +555,7 @@ rootCommand.SetHandler(async (file) =>
     }
 }, fileArg);
 
-return await rootCommand.InvokeAsync(args);
+return await rootCommand.Parse(args).InvokeAsync();
 ```
 
 ### 핵심 요약
