@@ -48,14 +48,16 @@ var fileArgument = new Argument<FileInfo>(
 );
 
 // 4. Handler: 실행 로직
-rootCommand.SetAction((file, verbose) =>
+rootCommand.SetAction(parseResult =>
 {
+    var file = parseResult.GetValue(fileArgument)!;
+    var verbose = parseResult.GetValue(verboseOption);
     Console.WriteLine($"Processing: {file.FullName}");
     if (verbose)
     {
         Console.WriteLine("Verbose mode enabled");
     }
-}, fileArgument, verboseOption);
+});
 
 // 실행
 return await rootCommand.Parse(args).InvokeAsync();
@@ -111,14 +113,19 @@ rootCommand.Options.Add(retriesOption);
 rootCommand.Options.Add(formatOption);
 rootCommand.Options.Add(tagsOption);
 
-rootCommand.SetAction((force, output, retries, format, tags) =>
+rootCommand.SetAction(parseResult =>
 {
+    var force = parseResult.GetValue(forceOption);
+    var output = parseResult.GetValue(outputOption);
+    var retries = parseResult.GetValue(retriesOption);
+    var format = parseResult.GetValue(formatOption);
+    var tags = parseResult.GetValue(tagsOption);
     Console.WriteLine($"Force: {force}");
     Console.WriteLine($"Output: {output ?? "(none)"}");
     Console.WriteLine($"Retries: {retries}");
     Console.WriteLine($"Format: {format}");
     Console.WriteLine($"Tags: {string.Join(", ", tags ?? Array.Empty<string>())}");
-}, forceOption, outputOption, retriesOption, formatOption, tagsOption);
+});
 
 await rootCommand.Parse(args).InvokeAsync();
 
@@ -168,8 +175,10 @@ var command = new Command("copy", "파일 복사");
 command.Arguments.Add(sourceArgument);
 command.Arguments.Add(destinationArgument);
 
-command.SetAction((source, destination) =>
+command.SetAction(parseResult =>
 {
+    var source = parseResult.GetValue(sourceArgument)!;
+    var destination = parseResult.GetValue(destinationArgument);
     Console.WriteLine($"Source: {source.FullName}");
     Console.WriteLine($"Destination: {destination?.FullName ?? "(stdout)"}");
 
@@ -181,7 +190,7 @@ command.SetAction((source, destination) =>
     {
         Console.WriteLine(File.ReadAllText(source.FullName));
     }
-}, sourceArgument, destinationArgument);
+});
 
 rootCommand.AddCommand(command);
 await rootCommand.Parse(args).InvokeAsync();
@@ -203,8 +212,10 @@ var addFilesArg = new Argument<string[]>("files") { Arity = ArgumentArity.OneOrM
 var addAllOption = new Option<bool>(new[] { "-A", "--all" }, "모든 변경사항 추가");
 addCommand.Arguments.Add(addFilesArg);
 addCommand.Options.Add(addAllOption);
-addCommand.SetAction((files, all) =>
+addCommand.SetAction(parseResult =>
 {
+    var files = parseResult.GetValue(addFilesArg)!;
+    var all = parseResult.GetValue(addAllOption);
     if (all)
     {
         Console.WriteLine("Adding all changes");
@@ -216,7 +227,7 @@ addCommand.SetAction((files, all) =>
             Console.WriteLine($"Adding: {file}");
         }
     }
-}, addFilesArg, addAllOption);
+});
 
 // git commit 커맨드
 var commitCommand = new Command("commit", "변경사항 커밋");
@@ -224,14 +235,16 @@ var messageOption = new Option<string>(new[] { "-m", "--message" }, "커밋 메�
 var amendOption = new Option<bool>("--amend", "이전 커밋 수정");
 commitCommand.Options.Add(messageOption);
 commitCommand.Options.Add(amendOption);
-commitCommand.SetAction((message, amend) =>
+commitCommand.SetAction(parseResult =>
 {
+    var message = parseResult.GetValue(messageOption)!;
+    var amend = parseResult.GetValue(amendOption);
     Console.WriteLine($"Committing: {message}");
     if (amend)
     {
         Console.WriteLine("Amending previous commit");
     }
-}, messageOption, amendOption);
+});
 
 // git log 커맨드
 var logCommand = new Command("log", "커밋 히스토리 표시");
@@ -239,10 +252,12 @@ var onelineOption = new Option<bool>("--oneline", "한 줄로 표시");
 var maxCountOption = new Option<int?>(new[] { "-n", "--max-count" }, "최대 표시 개수");
 logCommand.Options.Add(onelineOption);
 logCommand.Options.Add(maxCountOption);
-logCommand.SetAction((oneline, maxCount) =>
+logCommand.SetAction(parseResult =>
 {
+    var oneline = parseResult.GetValue(onelineOption);
+    var maxCount = parseResult.GetValue(maxCountOption);
     Console.WriteLine($"Showing log (oneline: {oneline}, max: {maxCount?.ToString() ?? "all"})");
-}, onelineOption, maxCountOption);
+});
 
 rootCommand.AddCommand(addCommand);
 rootCommand.AddCommand(commitCommand);
@@ -418,11 +433,13 @@ rootCommand.Options.Add(formatOption);
 rootCommand.AddExample(new[] { "-i", "data.txt", "-f", "json" });
 rootCommand.AddExample(new[] { "--input", "data.csv", "--format", "xml" });
 
-rootCommand.SetAction((input, format) =>
+rootCommand.SetAction(parseResult =>
 {
+    var input = parseResult.GetValue(inputOption)!;
+    var format = parseResult.GetValue(formatOption)!;
     Console.WriteLine($"Processing: {input.FullName}");
     Console.WriteLine($"Format: {format}");
-}, inputOption, formatOption);
+});
 
 await rootCommand.Parse(args).InvokeAsync();
 ```
@@ -506,12 +523,15 @@ rootCommand.Options.Add(inputOption);
 rootCommand.Options.Add(portOption);
 rootCommand.Options.Add(formatOption);
 
-rootCommand.SetAction((input, port, format) =>
+rootCommand.SetAction(parseResult =>
 {
+    var input = parseResult.GetValue(inputOption);
+    var port = parseResult.GetValue(portOption);
+    var format = parseResult.GetValue(formatOption);
     Console.WriteLine($"Input: {input?.FullName}");
     Console.WriteLine($"Port: {port}");
     Console.WriteLine($"Format: {format}");
-}, inputOption, portOption, formatOption);
+});
 
 await rootCommand.Parse(args).InvokeAsync();
 ```
@@ -530,8 +550,9 @@ var fileArg = new Argument<FileInfo>("file");
 
 rootCommand.Arguments.Add(fileArg);
 
-rootCommand.SetAction(async (file) =>
+rootCommand.SetAction(async parseResult =>
 {
+    var file = parseResult.GetValue(fileArg)!;
     try
     {
         var content = await File.ReadAllTextAsync(file.FullName);
@@ -553,7 +574,7 @@ rootCommand.SetAction(async (file) =>
         Console.Error.WriteLine($"예기치 않은 에러: {ex.Message}");
         return 99;
     }
-}, fileArg);
+});
 
 return await rootCommand.Parse(args).InvokeAsync();
 ```

@@ -343,10 +343,13 @@ namespace ProjectScaffold
             rootCommand.Options.Add(nameOption);
             rootCommand.Options.Add(templateOption);
 
-            rootCommand.SetAction((name, template) =>
+            rootCommand.SetAction(parseResult =>
             {
-                CreateProject(name, template);
-            }, nameOption, templateOption);
+                CreateProject(
+                    parseResult.GetValue(nameOption)!,
+                    parseResult.GetValue(templateOption)!
+                );
+            });
 
             return await rootCommand.Parse(args).InvokeAsync();
         }
@@ -518,8 +521,13 @@ namespace SshFriendlyTool
             rootCommand.Options.Add(verboseOption);
             rootCommand.Options.Add(noColorOption);
 
-            rootCommand.SetAction((input, output, verbose, noColor) =>
+            rootCommand.SetAction(parseResult =>
             {
+                var input = parseResult.GetValue(inputOption)!;
+                var output = parseResult.GetValue(outputOption);
+                var verbose = parseResult.GetValue(verboseOption);
+                var noColor = parseResult.GetValue(noColorOption);
+
                 // 터미널 감지
                 bool isInteractive = Console.IsInputRedirected == false
                     && Console.IsOutputRedirected == false;
@@ -527,7 +535,7 @@ namespace SshFriendlyTool
 
                 var processor = new BatchProcessor(verbose, useColor);
                 return processor.Process(input, output);
-            }, inputOption, outputOption, verboseOption, noColorOption);
+            });
 
             return await rootCommand.Parse(args).InvokeAsync();
         }

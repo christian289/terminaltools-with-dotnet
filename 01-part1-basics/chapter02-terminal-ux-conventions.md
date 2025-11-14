@@ -82,10 +82,15 @@ namespace PosixStyleCli
             rootCommand.Options.Add(forceOption);
             rootCommand.Arguments.Add(inputArgument);
 
-            rootCommand.SetAction((verbose, output, force, inputs) =>
+            rootCommand.SetAction(parseResult =>
             {
-                ProcessFiles(inputs, output, verbose, force);
-            }, verboseOption, outputOption, forceOption, inputArgument);
+                ProcessFiles(
+                    parseResult.GetValue(inputArgument)!,
+                    parseResult.GetValue(outputOption),
+                    parseResult.GetValue(verboseOption),
+                    parseResult.GetValue(forceOption)
+                );
+            });
 
             return await rootCommand.Parse(args).InvokeAsync();
         }
@@ -247,10 +252,14 @@ namespace ExitCodeExample
             rootCommand.Arguments.Add(fileArgument);
             rootCommand.Options.Add(timeoutOption);
 
-            rootCommand.SetAction((pattern, file, timeout) =>
+            rootCommand.SetAction(parseResult =>
             {
-                return SearchFile(pattern, file, timeout);
-            }, patternArgument, fileArgument, timeoutOption);
+                return SearchFile(
+                    parseResult.GetValue(patternArgument)!,
+                    parseResult.GetValue(fileArgument)!,
+                    parseResult.GetValue(timeoutOption)
+                );
+            });
 
             return await rootCommand.Parse(args).InvokeAsync();
         }
@@ -440,11 +449,16 @@ namespace SubcommandExample
             command.Arguments.Add(pathArgument);
             command.Options.Add(recursiveOption);
 
-            command.SetAction((path, recursive, verbose) =>
+            var verboseOption = new Option<bool>(new[] { "-v", "--verbose" }); // global option 접근
+
+            command.SetAction(parseResult =>
             {
-                ListFiles(path, recursive, verbose);
-            }, pathArgument, recursiveOption,
-               new Option<bool>(new[] { "-v", "--verbose" })); // global option 접근
+                ListFiles(
+                    parseResult.GetValue(pathArgument)!,
+                    parseResult.GetValue(recursiveOption),
+                    parseResult.GetValue(verboseOption)
+                );
+            });
 
             return command;
         }
@@ -472,11 +486,17 @@ namespace SubcommandExample
             command.Arguments.Add(destArgument);
             command.Options.Add(forceOption);
 
-            command.SetAction((source, dest, force, verbose) =>
+            var verboseOption = new Option<bool>(new[] { "-v", "--verbose" });
+
+            command.SetAction(parseResult =>
             {
-                CopyFile(source, dest, force, verbose);
-            }, sourceArgument, destArgument, forceOption,
-               new Option<bool>(new[] { "-v", "--verbose" }));
+                CopyFile(
+                    parseResult.GetValue(sourceArgument)!,
+                    parseResult.GetValue(destArgument)!,
+                    parseResult.GetValue(forceOption),
+                    parseResult.GetValue(verboseOption)
+                );
+            });
 
             return command;
         }
@@ -498,11 +518,16 @@ namespace SubcommandExample
             command.Arguments.Add(fileArgument);
             command.Options.Add(forceOption);
 
-            command.SetAction((files, force, verbose) =>
+            var verboseOption = new Option<bool>(new[] { "-v", "--verbose" });
+
+            command.SetAction(parseResult =>
             {
-                DeleteFiles(files, force, verbose);
-            }, fileArgument, forceOption,
-               new Option<bool>(new[] { "-v", "--verbose" }));
+                DeleteFiles(
+                    parseResult.GetValue(fileArgument)!,
+                    parseResult.GetValue(forceOption),
+                    parseResult.GetValue(verboseOption)
+                );
+            });
 
             return command;
         }
@@ -704,10 +729,14 @@ namespace HelpExample
             rootCommand.AddExample("-i data.csv -f xml");
             rootCommand.AddExample("--input log.txt --format text");
 
-            rootCommand.SetAction((input, output, format) =>
+            rootCommand.SetAction(parseResult =>
             {
-                ProcessData(input, output, format);
-            }, inputOption, outputOption, formatOption);
+                ProcessData(
+                    parseResult.GetValue(inputOption)!,
+                    parseResult.GetValue(outputOption),
+                    parseResult.GetValue(formatOption)!
+                );
+            });
 
             return await rootCommand.Parse(args).InvokeAsync();
         }
@@ -819,10 +848,11 @@ namespace CustomHelpExample
 
             rootCommand.Options.Add(inputOption);
 
-            rootCommand.SetAction((input) =>
+            rootCommand.SetAction(parseResult =>
             {
+                var input = parseResult.GetValue(inputOption)!;
                 Console.WriteLine($"처리: {input.FullName}");
-            }, inputOption);
+            });
 
             // 커스텀 도움말 적용
             var commandLineBuilder = new CommandLineBuilder(rootCommand)

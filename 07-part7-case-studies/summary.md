@@ -21,8 +21,11 @@ var daysOption = new Option<int>("--days", () => 30, "보관 기간 (일)");
 cleanCommand.Arguments.Add(dirArg);
 cleanCommand.Options.Add(daysOption);
 
-cleanCommand.SetAction((dir, days) =>
+cleanCommand.SetAction(parseResult =>
 {
+    var dir = parseResult.GetValue(dirArg)!;
+    var days = parseResult.GetValue(daysOption);
+
     var cutoffDate = DateTime.Now.AddDays(-days);
     var files = dir.GetFiles("*", SearchOption.AllDirectories)
         .Where(f => f.LastWriteTime < cutoffDate)
@@ -35,7 +38,7 @@ cleanCommand.SetAction((dir, days) =>
         Console.WriteLine($"삭제: {file.FullName}");
         // file.Delete();
     }
-}, dirArg, daysOption);
+});
 
 rootCommand.AddCommand(cleanCommand);
 await rootCommand.Parse(args).InvokeAsync();
@@ -549,8 +552,13 @@ class Program
         rootCommand.Options.Add(messageOption);
         rootCommand.Options.Add(verboseOption);
 
-        rootCommand.SetAction((input, output, message, verbose) =>
+        rootCommand.SetAction(parseResult =>
         {
+            var input = parseResult.GetValue(inputOption)!;
+            var output = parseResult.GetValue(outputOption)!;
+            var message = parseResult.GetValue(messageOption)!;
+            var verbose = parseResult.GetValue(verboseOption);
+
             // UTF-8 출력 설정 (한글 지원)
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -569,7 +577,7 @@ class Program
 
             Console.WriteLine($"✓ {message}");
             return 0;
-        }, inputOption, outputOption, messageOption, verboseOption);
+        });
 
         return await rootCommand.Parse(args).InvokeAsync();
     }

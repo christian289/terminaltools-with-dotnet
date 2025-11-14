@@ -183,8 +183,11 @@ var outputOption = new Option<string>(
 rootCommand.Options.Add(inputOption);
 rootCommand.Options.Add(outputOption);
 
-rootCommand.SetAction(async (input, output) =>
+rootCommand.SetAction(async parseResult =>
 {
+    var input = parseResult.GetValue(inputOption)!;
+    var output = parseResult.GetValue(outputOption);
+
     // Generic Host 구성
     var builder = Host.CreateApplicationBuilder();
 
@@ -207,7 +210,7 @@ rootCommand.SetAction(async (input, output) =>
     var host = builder.Build();
     await host.RunAsync();
 
-}, inputOption, outputOption);
+});
 
 return await rootCommand.Parse(args).InvokeAsync();
 

@@ -64,10 +64,11 @@ var nameOption = new Option<string>(
 
 rootCommand.Options.Add(nameOption);
 
-rootCommand.SetAction((name) =>
+rootCommand.SetAction(parseResult =>
 {
+    var name = parseResult.GetValue(nameOption);
     Console.WriteLine($"Hello, {name}!");
-}, nameOption);
+});
 
 return await rootCommand.Parse(args).InvokeAsync();
 ```
